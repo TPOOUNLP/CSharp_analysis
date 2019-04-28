@@ -21,12 +21,31 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
+{ #category : #voyage }
+CSharpAnalyzer class >> isVoyageRoot [
+	^ true
+]
+
 { #category : #parsing }
 CSharpAnalyzer class >> parseProject: aProjectFolder [
 	"Parse all the .cs files from a project's folder."
 	 ^ (self new)
 			parseCSharpProject: aProjectFolder;
 			yourself.
+]
+
+{ #category : #voyage }
+CSharpAnalyzer class >> setUpConnection [
+	| repository |
+	repository := VOMongoRepository
+		host: 'localhost'
+		database: 'CSharpAnalyzer'.
+	repository enableSingleton.
+]
+
+{ #category : #voyage }
+CSharpAnalyzer class >> voyageCollectionName [
+	^ 'CSharpAnalyzer'
 ]
 
 { #category : #accessing }
