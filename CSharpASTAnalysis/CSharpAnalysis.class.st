@@ -25,7 +25,7 @@ CSharpAnalysis >> ast_collection: anObject [
 CSharpAnalysis >> checkMethodCount [
 	"Check if any class has more than 30 methods"
 	| code_smells method_visitor |
-	code_smells := 0.
+	code_smells := Dictionary new.
 	ast_collection do: [ :csUnitNode | 
 		csUnitNode declarations do: [ :namespace | 
 			namespace declarations do: [ :class |
@@ -33,7 +33,7 @@ CSharpAnalysis >> checkMethodCount [
 				class declarations  do: [ :declaration | 
 					declaration acceptVisitor: method_visitor.
 				].
-				(method_visitor methods size > 30) ifTrue: [ code_smells:= code_smells + 1 ]
+				(method_visitor methods size > 1) ifTrue: [ code_smells at: class name put: 'Too many methods' ]
 			].
 		].
 	].
