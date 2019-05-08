@@ -58,7 +58,7 @@ CSharpAnalyzer >> initialize [
 CSharpAnalyzer >> loadParsing: aFilePath [
 	| working_dir fstream |
 	working_dir := FileSystem disk workingDirectory.
-	fstream := (working_dir/'Analyzer.ston') readStream.
+	fstream := (working_dir/aFilePath) readStream.
 	cSharpAnalysis:= (STON fromString: (fstream contents)).
 	fstream close.
 ]
