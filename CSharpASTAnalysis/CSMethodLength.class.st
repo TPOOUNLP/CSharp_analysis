@@ -1,9 +1,6 @@
-"
-A visitor for declarations of a CSharp program.
-"
 Class {
-	#name : #CSMethodLengthVisitor,
-	#superclass : #CSProgramNodeVisitor,
+	#name : #CSMethodLength,
+	#superclass : #CodeSmellDetector,
 	#instVars : [
 		'methods',
 		'length'
@@ -12,7 +9,7 @@ Class {
 }
 
 { #category : #detection }
-CSMethodLengthVisitor >> detectCodeSmell: aCSCompilationUnitNode [
+CSMethodLength >> detectCodeSmell: aCSCompilationUnitNode [
 	| code_smells |
 	code_smells := WriteStream on: ''.
 	aCSCompilationUnitNode acceptVisitor: self.
@@ -32,7 +29,7 @@ CSMethodLengthVisitor >> detectCodeSmell: aCSCompilationUnitNode [
 ]
 
 { #category : #detection }
-CSMethodLengthVisitor >> detectCodeSmellFromCollection: anAstCollection [
+CSMethodLength >> detectCodeSmellFromCollection: anAstCollection [
 	| code_smells |
 	code_smells := WriteStream on: ''.
 	anAstCollection
@@ -46,33 +43,33 @@ CSMethodLengthVisitor >> detectCodeSmellFromCollection: anAstCollection [
 ]
 
 { #category : #initialization }
-CSMethodLengthVisitor >> initialize [
+CSMethodLength >> initialize [
 	methods := Bag new.
 	length := 30.
 ]
 
 { #category : #accessing }
-CSMethodLengthVisitor >> length [
+CSMethodLength >> length [
 	^ length
 ]
 
 { #category : #accessing }
-CSMethodLengthVisitor >> length: anObject [
+CSMethodLength >> length: anObject [
 	length := anObject
 ]
 
 { #category : #accessing }
-CSMethodLengthVisitor >> methods [
+CSMethodLength >> methods [
 	^ methods
 ]
 
 { #category : #accessing }
-CSMethodLengthVisitor >> methods: anObject [
+CSMethodLength >> methods: anObject [
 	methods := anObject
 ]
 
 { #category : #generated }
-CSMethodLengthVisitor >> visitMethodDeclaration: aMethodDeclaration [
+CSMethodLength >> visitMethodDeclaration: aMethodDeclaration [
 	| class |
 	class:= aMethodDeclaration parent.
 	methods add: (class name value).

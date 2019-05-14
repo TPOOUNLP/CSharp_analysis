@@ -49,6 +49,13 @@ CSharpAnalyzer >> cSharpAnalysis: anObject [
 	cSharpAnalysis := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+CSharpAnalyzer >> detectCodeSmells [
+	"Detects code smells from the loaded project. Returns a collection of reports."
+
+	^self cSharpAnalysis detect.
+]
+
 { #category : #initialization }
 CSharpAnalyzer >> initialize [
 	cSharpAnalysis := CSharpAnalysis new.
