@@ -38,10 +38,9 @@ CSharpAnalysis >> checkMethodCount [
 	^ (v detectCodeSmellFromCollection: ast_collection).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #detection }
 CSharpAnalysis >> detect [
 	"Detect all the code smells loaded into detectors. Returns a collection of reports."
-	self ast_collection do: [ :a | self detectors do: [ :d | a acceptVisitor: d ] ].
 	^self detectors collect: [ :d | d detectCodeSmellFromCollection: self ast_collection ].
 ]
 

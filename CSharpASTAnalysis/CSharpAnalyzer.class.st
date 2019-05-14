@@ -49,7 +49,7 @@ CSharpAnalyzer >> cSharpAnalysis: anObject [
 	cSharpAnalysis := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #detection }
 CSharpAnalyzer >> detectCodeSmells [
 	"Detects code smells from the loaded project. Returns a collection of reports."
 

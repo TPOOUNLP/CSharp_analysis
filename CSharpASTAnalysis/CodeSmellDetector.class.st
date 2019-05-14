@@ -1,6 +1,11 @@
+"
+Abstract visitor class.
+It visits the ASTs to detect an specific code smell.
+
+"
 Class {
 	#name : #CodeSmellDetector,
-	#superclass : #Object,
+	#superclass : #CSProgramNodeVisitor,
 	#category : #CSharpASTAnalysis
 }
 

@@ -1,5 +1,8 @@
+"
+Visitor to detect code smell of too many methods in a class.
+"
 Class {
-	#name : #CSMethodLength,
+	#name : #CSDetectorTooManyMethods,
 	#superclass : #CodeSmellDetector,
 	#instVars : [
 		'methods',
@@ -9,7 +12,7 @@ Class {
 }
 
 { #category : #detection }
-CSMethodLength >> detectCodeSmell: aCSCompilationUnitNode [
+CSDetectorTooManyMethods >> detectCodeSmell: aCSCompilationUnitNode [
 	| code_smells |
 	code_smells := WriteStream on: ''.
 	aCSCompilationUnitNode acceptVisitor: self.
@@ -29,11 +32,12 @@ CSMethodLength >> detectCodeSmell: aCSCompilationUnitNode [
 ]
 
 { #category : #detection }
-CSMethodLength >> detectCodeSmellFromCollection: anAstCollection [
+CSDetectorTooManyMethods >> detectCodeSmellFromCollection: anAstCollection [
 	| code_smells |
 	code_smells := WriteStream on: ''.
 	anAstCollection
-		do: [ :ast | 
+		do: [ :ast |
+			self methods: Bag new. 
 			code_smells
 				nextPutAll: (ast attributes at:#filename);
 				nextPut: Character cr;
@@ -43,33 +47,33 @@ CSMethodLength >> detectCodeSmellFromCollection: anAstCollection [
 ]
 
 { #category : #initialization }
-CSMethodLength >> initialize [
+CSDetectorTooManyMethods >> initialize [
 	methods := Bag new.
 	length := 30.
 ]
 
 { #category : #accessing }
-CSMethodLength >> length [
+CSDetectorTooManyMethods >> length [
 	^ length
 ]
 
 { #category : #accessing }
-CSMethodLength >> length: anObject [
+CSDetectorTooManyMethods >> length: anObject [
 	length := anObject
 ]
 
 { #category : #accessing }
-CSMethodLength >> methods [
+CSDetectorTooManyMethods >> methods [
 	^ methods
 ]
 
 { #category : #accessing }
-CSMethodLength >> methods: anObject [
+CSDetectorTooManyMethods >> methods: anObject [
 	methods := anObject
 ]
 
 { #category : #generated }
-CSMethodLength >> visitMethodDeclaration: aMethodDeclaration [
+CSDetectorTooManyMethods >> visitMethodDeclaration: aMethodDeclaration [
 	| class |
 	class:= aMethodDeclaration parent.
 	methods add: (class name value).
