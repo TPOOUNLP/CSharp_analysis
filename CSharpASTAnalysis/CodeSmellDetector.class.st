@@ -17,8 +17,17 @@ CodeSmellDetector >> detectCodeSmell: aCompilationNode [
 ]
 
 { #category : #detection }
-CodeSmellDetector >> detectCodeSmellFromCollection: aCollection [
+CodeSmellDetector >> detectCodeSmellFromCollection: anAstCollection [
 	"Base method to detect code smells from a collection of nodes"
 
-	self subclassResponsibility.
+	| code_smells |
+	code_smells := WriteStream on: ''.
+	anAstCollection
+		do: [ :ast |
+			code_smells
+				nextPutAll: (ast attributes at:#filename);
+				nextPut: Character cr;
+				nextPutAll: (self detectCodeSmell: ast);
+				nextPut: Character cr. ].
+	^ code_smells
 ]

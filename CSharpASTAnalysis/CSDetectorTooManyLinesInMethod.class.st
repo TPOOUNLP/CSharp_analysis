@@ -14,20 +14,6 @@ CSDetectorTooManyLinesInMethod >> detectCodeSmell: aCSCompilationUnitNode [
 	^ self printResult.
 ]
 
-{ #category : #detection }
-CSDetectorTooManyLinesInMethod >> detectCodeSmellFromCollection: anAstCollection [
-	| code_smells |
-	code_smells := WriteStream on: ''.
-	anAstCollection
-		do: [ :ast |
-			code_smells
-				nextPutAll: (ast attributes at:#filename);
-				nextPut: Character cr;
-				nextPutAll: (self detectCodeSmell: ast);
-				nextPut: Character cr. ].
-	^ code_smells
-]
-
 { #category : #initialization }
 CSDetectorTooManyLinesInMethod >> initialize [
 	tooManyLinesMethods := Dictionary new.

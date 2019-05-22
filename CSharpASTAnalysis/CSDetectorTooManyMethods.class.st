@@ -31,21 +31,6 @@ CSDetectorTooManyMethods >> detectCodeSmell: aCSCompilationUnitNode [
 	^ code_smells contents.
 ]
 
-{ #category : #detection }
-CSDetectorTooManyMethods >> detectCodeSmellFromCollection: anAstCollection [
-	| code_smells |
-	code_smells := WriteStream on: ''.
-	anAstCollection
-		do: [ :ast |
-			self methods: Bag new. 
-			code_smells
-				nextPutAll: (ast attributes at:#filename);
-				nextPut: Character cr;
-				nextPutAll: (self detectCodeSmell: ast);
-				nextPut: Character cr. ].
-	^ code_smells
-]
-
 { #category : #initialization }
 CSDetectorTooManyMethods >> initialize [
 	methods := Bag new.
