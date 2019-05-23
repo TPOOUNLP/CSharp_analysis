@@ -41,7 +41,7 @@ CSharpAnalysis >> checkMethodCount [
 { #category : #detection }
 CSharpAnalysis >> detect [
 	"Detect all the code smells loaded into detectors. Returns a collection of reports."
-	^self detectors collect: [ :d | d detectCodeSmellFromCollection: self ast_collection ].
+	^ detectors collect: [ :d | d detectCodeSmellFromCollection: self ast_collection ].
 ]
 
 { #category : #accessing }

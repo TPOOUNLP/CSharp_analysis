@@ -15,17 +15,18 @@ Class {
 CSDetectorTooManyMethods >> detectCodeSmell: aCSCompilationUnitNode [
 	| code_smells |
 	code_smells := WriteStream on: ''.
+	methods := Bag new.
 	aCSCompilationUnitNode acceptVisitor: self.
 	methods sortedElements
 		do: [ :class | 
 			(methods occurrencesOf: class key) > length
 				ifTrue: [ code_smells
-						nextPutAll: 'Class: "';
+						nextPutAll: 'Class "';
 						nextPutAll: class key;
-						nextPutAll: '": ';
+						nextPutAll: '" has ';
 						nextPutAll: (methods occurrencesOf: class key) printString;
-						nextPutAll: ' methods.';
-						nextPut: Character cr. 
+						nextPutAll: ' methods. The upper-bound limit is ';
+						nextPutAll: length printString; cr.
 				]. 
 			].
 	^ code_smells contents.
@@ -33,17 +34,8 @@ CSDetectorTooManyMethods >> detectCodeSmell: aCSCompilationUnitNode [
 
 { #category : #detection }
 CSDetectorTooManyMethods >> detectCodeSmellFromCollection: anAstCollection [
-	| code_smells |
-	code_smells := WriteStream on: ''.
-	anAstCollection
-		do: [ :ast |
-			self methods: Bag new. 
-			code_smells
-				nextPutAll: (ast attributes at:#filename);
-				nextPut: Character cr;
-				nextPutAll: (self detectCodeSmell: ast);
-				nextPut: Character cr. ].
-	^ code_smells
+
+	^anAstCollection collect: [ :ast | self detectCodeSmell: ast ].
 ]
 
 { #category : #initialization }
