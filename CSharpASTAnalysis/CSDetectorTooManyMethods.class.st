@@ -11,26 +11,6 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
-{ #category : #detection }
-CSDetectorTooManyMethods >> detectCodeSmell: aCSCompilationUnitNode [
-	| code_smells |
-	code_smells := WriteStream on: ''.
-	aCSCompilationUnitNode acceptVisitor: self.
-	methods sortedElements
-		do: [ :class | 
-			(methods occurrencesOf: class key) > length
-				ifTrue: [ code_smells
-						nextPutAll: 'Class: "';
-						nextPutAll: class key;
-						nextPutAll: '": ';
-						nextPutAll: (methods occurrencesOf: class key) printString;
-						nextPutAll: ' methods.';
-						nextPut: Character cr. 
-				]. 
-			].
-	^ code_smells contents.
-]
-
 { #category : #initialization }
 CSDetectorTooManyMethods >> initialize [
 	methods := Bag new.
@@ -47,17 +27,26 @@ CSDetectorTooManyMethods >> length: anObject [
 	length := anObject
 ]
 
-{ #category : #accessing }
-CSDetectorTooManyMethods >> methods [
-	^ methods
+{ #category : #private }
+CSDetectorTooManyMethods >> printResult [
+	| text |
+	text := WriteStream on: ''.
+	methods sortedElements
+		do: [ :class | 
+			(methods occurrencesOf: class key) > length
+				ifTrue: [ text
+						nextPutAll: 'Class: "';
+						nextPutAll: class key;
+						nextPutAll: '": ';
+						nextPutAll: (methods occurrencesOf: class key) printString;
+						nextPutAll: ' methods.';
+						nextPut: Character cr. 
+				]. 
+			].
+	^ text contents.
 ]
 
-{ #category : #accessing }
-CSDetectorTooManyMethods >> methods: anObject [
-	methods := anObject
-]
-
-{ #category : #generated }
+{ #category : #visitor }
 CSDetectorTooManyMethods >> visitMethodDeclaration: aMethodDeclaration [
 	| class |
 	class:= aMethodDeclaration parent.

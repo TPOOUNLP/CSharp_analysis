@@ -1,91 +1,53 @@
 "
-A CSharp project analyzer.
-It parses a project and make AST trees of every CSharp file.
-
---
-Usage example:
-analyzer:= CSharpAnalyzer parseProject: 'myFiles/CSharpProject/'.
-
-To save the parsing to a file (with STON):
-analyzer saveParsingTo: 'Analyser.ston' .
-
-To load the parsing file: 
-analyzer loadParsing: 'Analyser.ston'.
+A CSharp Project already parsed with the analyzer.
+The ASTs of the project are stored in 'ast_collection'.
 "
 Class {
 	#name : #CSharpAnalyzer,
 	#superclass : #Object,
 	#instVars : [
-		'cSharpAnalysis'
+		'detectors',
+		'astCollection'
 	],
 	#category : #CSharpASTAnalysis
 }
 
-{ #category : #parsing }
-CSharpAnalyzer class >> parseProject: aProjectFolder [
-	"Parse all the .cs files from a project's folder."
-	 ^ (self new)
-			parseCSharpProject: aProjectFolder;
-			yourself.
+{ #category : #adding }
+CSharpAnalyzer >> addDetector: aCodeSmellDetector [
+	"Add a code smell detector"
+	
+	self detectors add: aCodeSmellDetector.
 ]
 
 { #category : #accessing }
-CSharpAnalyzer >> ast_collection [
-	^ cSharpAnalysis ast_collection
+CSharpAnalyzer >> astCollection [
+	^ astCollection
 ]
 
 { #category : #accessing }
-CSharpAnalyzer >> ast_collection: anObject [
-	cSharpAnalysis ast_collection: anObject.
-]
-
-{ #category : #accessing }
-CSharpAnalyzer >> cSharpAnalysis [
-	^ cSharpAnalysis
-]
-
-{ #category : #accessing }
-CSharpAnalyzer >> cSharpAnalysis: anObject [
-	cSharpAnalysis := anObject
+CSharpAnalyzer >> astCollection: anAstCollection [
+	astCollection := anAstCollection.
 ]
 
 { #category : #detection }
-CSharpAnalyzer >> detectCodeSmells [
-	"Detects code smells from the loaded project. Returns a collection of reports."
+CSharpAnalyzer >> detect [
+	"Detect all the code smells loaded into detectors. Returns a collection of reports."
+	
+	^self detectors collect: [ :d | d detectCodeSmellFromCollection: self astCollection ].
+]
 
-	^self cSharpAnalysis detect.
+{ #category : #accessing }
+CSharpAnalyzer >> detectors [
+	^ detectors
+]
+
+{ #category : #accessing }
+CSharpAnalyzer >> detectors: aDetectorsCollection [
+	detectors := aDetectorsCollection.
 ]
 
 { #category : #initialization }
-CSharpAnalyzer >> initialize [
-	cSharpAnalysis := CSharpAnalysis new.
-]
+CSharpAnalyzer >> initialize [ 
 
-{ #category : #'file in/out' }
-CSharpAnalyzer >> loadParsing: aFilePath [
-	| working_dir fstream |
-	working_dir := FileSystem disk workingDirectory.
-	fstream := (working_dir/aFilePath) readStream.
-	cSharpAnalysis:= (STON fromString: (fstream contents)).
-	fstream close.
-]
-
-{ #category : #parsing }
-CSharpAnalyzer >> parseCSharpProject: aProjectFolder [
-	"Parse all the .cs files from a project's folder."
-
-	| work files |
-	work := aProjectFolder asFileReference.
-	files := work allChildrenMatching: '*.cs'.
-	cSharpAnalysis ast_collection: (files collect: [ :each | CSharpParser parseFile: each fullName ]).
-]
-
-{ #category : #'file in/out' }
-CSharpAnalyzer >> saveParsingTo: aFilePath [
-	| ston fstream workingDir |
-	ston := STON toStringPretty: self cSharpAnalysis  .
-	workingDir := FileSystem disk workingDirectory.
-	fstream := (workingDir / aFilePath) writeStream.
-	fstream nextPutAll: ston.
-	fstream close
+	self detectors: OrderedCollection new.
 ]

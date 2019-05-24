@@ -1,26 +1,22 @@
+"
+CodeSmellDetector to detect code smell of repeated method body.
+"
 Class {
 	#name : #CSDetectorRepeatedMethodBody,
 	#superclass : #CodeSmellDetector,
 	#instVars : [
-		'methods'
+		'methods',
+		'duplicatedMethods'
 	],
 	#category : #CSharpASTAnalysis
 }
 
-{ #category : #detection }
-CSDetectorRepeatedMethodBody >> detectCodeSmell: aCSCompilationUnitNode [
-
-	aCSCompilationUnitNode acceptVisitor: self.
-	^ self printResult: (self evaluateRepeatedMethods).
-]
-
-{ #category : #detection }
+{ #category : #private }
 CSDetectorRepeatedMethodBody >> evaluateRepeatedMethods [
-	|duplicateList bag|
-	duplicateList := Bag new.
+	|bag|
+	duplicatedMethods := Bag new.
 	bag := methods asBag.
-	methods do: [:each | (bag occurrencesOf: each) > 1 ifTrue: [duplicateList add: each parent]].
-	^ duplicateList.
+	methods do: [:each | (bag occurrencesOf: each) > 1 ifTrue: [duplicatedMethods add: each parent]].
 
 ]
 
@@ -29,21 +25,11 @@ CSDetectorRepeatedMethodBody >> initialize [
 	methods := OrderedCollection new.
 ]
 
-{ #category : #accessing }
-CSDetectorRepeatedMethodBody >> methods [
-	^ methods
-]
-
-{ #category : #accessing }
-CSDetectorRepeatedMethodBody >> methods: anObject [
-	methods := anObject
-]
-
-{ #category : #detection }
-CSDetectorRepeatedMethodBody >> printResult: aMethodCollection [
+{ #category : #private }
+CSDetectorRepeatedMethodBody >> printResult [
 	| text |
 	text := WriteStream on: ''.
-	aMethodCollection do: [ :method | text nextPutAll: 'Class "';
+	duplicatedMethods do: [ :method | text nextPutAll: 'Class "';
 						nextPutAll: method parent name value;
 						nextPutAll: '", Method "';
 						nextPutAll: method header name value;
@@ -53,7 +39,7 @@ CSDetectorRepeatedMethodBody >> printResult: aMethodCollection [
 	^ text contents.
 ]
 
-{ #category : #detection }
+{ #category : #visitor }
 CSDetectorRepeatedMethodBody >> visitMethodDeclaration: aMethodDeclaration [
 	methods add: aMethodDeclaration body.
 ]

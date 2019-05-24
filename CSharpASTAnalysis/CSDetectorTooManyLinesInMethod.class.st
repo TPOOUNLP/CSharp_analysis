@@ -1,3 +1,6 @@
+"
+CodeSmellDetector to detect code smell of too many lines in a method.
+"
 Class {
 	#name : #CSDetectorTooManyLinesInMethod,
 	#superclass : #CodeSmellDetector,
@@ -7,12 +10,6 @@ Class {
 	],
 	#category : #CSharpASTAnalysis
 }
-
-{ #category : #detection }
-CSDetectorTooManyLinesInMethod >> detectCodeSmell: aCSCompilationUnitNode [
-	aCSCompilationUnitNode acceptVisitor: self.
-	^ self printResult.
-]
 
 { #category : #initialization }
 CSDetectorTooManyLinesInMethod >> initialize [
@@ -30,7 +27,7 @@ CSDetectorTooManyLinesInMethod >> methodBodyMaxlength: anObject [
 	methodBodyMaxlength := anObject
 ]
 
-{ #category : #detection }
+{ #category : #private }
 CSDetectorTooManyLinesInMethod >> printResult [
 	| text |
 	text := WriteStream on: ''.
@@ -46,17 +43,7 @@ CSDetectorTooManyLinesInMethod >> printResult [
 	^ text contents.
 ]
 
-{ #category : #accessing }
-CSDetectorTooManyLinesInMethod >> tooManyLinesMethods [
-	^ tooManyLinesMethods
-]
-
-{ #category : #accessing }
-CSDetectorTooManyLinesInMethod >> tooManyLinesMethods: anObject [
-	tooManyLinesMethods := anObject
-]
-
-{ #category : #generated }
+{ #category : #visitor }
 CSDetectorTooManyLinesInMethod >> visitBlockStatement: aBlockStatement [
 	| lines |
 	lines := aBlockStatement statements size.
