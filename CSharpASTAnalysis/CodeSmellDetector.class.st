@@ -10,24 +10,39 @@ Class {
 }
 
 { #category : #detection }
+CodeSmellDetector >> detect: aCompilationNode [
+	"Base method to detect a code smell, you can overwrite it if you need it"
+
+	aCompilationNode acceptVisitor: self.
+]
+
+{ #category : #detection }
 CodeSmellDetector >> detectCodeSmell: aCompilationNode [
 	"Base method to detect code smells from a SmaCC node"
 
-	self subclassResponsibility.
+	self detect: aCompilationNode.
+	^ self printResult.
 ]
 
 { #category : #detection }
 CodeSmellDetector >> detectCodeSmellFromCollection: anAstCollection [
 	"Base method to detect code smells from a collection of nodes"
 
-	| code_smells |
-	code_smells := WriteStream on: ''.
+	| text |
+	text := WriteStream on: ''.
 	anAstCollection
 		do: [ :ast |
-			code_smells
+			text
 				nextPutAll: (ast attributes at:#filename);
 				nextPut: Character cr;
 				nextPutAll: (self detectCodeSmell: ast);
 				nextPut: Character cr. ].
-	^ code_smells
+	^ text contents
+]
+
+{ #category : #private }
+CodeSmellDetector >> printResult [
+	"Base method to detect code smells from a SmaCC node"
+
+	^ self subclassResponsibility.
 ]
