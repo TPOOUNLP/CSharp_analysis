@@ -19,6 +19,8 @@ CSDetectorTooManyMethodParameters >> detectCodeSmell: aCSCompilationUnitNode [
 				ifTrue: [ code_smells
 						nextPutAll: 'Method "';
 						nextPutAll: method header name value;
+						nextPutAll: '" from class "';
+						nextPutAll: method parent name value;
 						nextPutAll: '" has ';
 						nextPutAll: params printString;
 						nextPutAll: ' params. The upper-bound limit is ';
