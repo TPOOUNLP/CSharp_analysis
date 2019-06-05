@@ -1,10 +1,10 @@
 "
-A CSharp project analyzer.
+A CSharp project manager.
 It parses a project and make AST trees of every CSharp file.
 
 --
 Usage example:
-analyzer:= CSharpAnalyzer parseProject: 'myFiles/CSharpProject/'.
+analyzer:= CProjectManager parseCSharpProject: 'myFiles/CSharpProject/'.
 
 To save the parsing to a file (with STON):
 analyzer saveParsingTo: 'Analyser.ston' .
