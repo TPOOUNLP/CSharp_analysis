@@ -24,12 +24,12 @@ CSharpProjectManager_Test >> aProjectManager: anObject [
 CSharpProjectManager_Test >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
 	super setUp.
-	aProjectManager:= CSharpProjectManager parseProject: '/home/naparicio/Documentos/Facultad/TPOO/Practica/Repos Prueba/HelloWorld'.
+	aProjectManager:= CSharpProjectManager parseProject: './Projects/NiceFactory-master'.
 ]
 
 { #category : #tests }
 CSharpProjectManager_Test >> test_init [
-	self assert: (aProjectManager astCollection size) equals: 2.
+	self assert: (aProjectManager astCollection size) equals: 5.
 ]
 
 { #category : #tests }
@@ -39,5 +39,5 @@ CSharpProjectManager_Test >> test_parsing [
 	aProjectManager:= CSharpProjectManager new.
 	self deny: (aProjectManager astCollection notNil).
 	aProjectManager loadParsing: 'parsing.STON'.
-	self assert: (aProjectManager astCollection size) equals: 2.
+	self assert: (aProjectManager astCollection size) equals: 5.
 ]
