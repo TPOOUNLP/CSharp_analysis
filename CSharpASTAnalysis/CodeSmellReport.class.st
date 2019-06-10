@@ -1,42 +1,68 @@
+"
+Generates a Report for a CodeSmell detector.
+"
 Class {
 	#name : #CodeSmellReport,
 	#superclass : #Object,
 	#instVars : [
-		'reportsDict'
+		'name',
+		'csClassName',
+		'detections'
 	],
 	#category : #CSharpASTAnalysis
 }
 
+{ #category : #accessing }
+CodeSmellReport class >> name:aCodeSmellDetectorStringName [
+	^ (self new)
+		name: aCodeSmellDetectorStringName;
+		yourself.
+]
+
+{ #category : #accessing }
+CodeSmellReport class >> name:aCodeSmellDetectorStringName className:aCSharpClassName [
+	^ (self new)
+		name: aCodeSmellDetectorStringName;
+		csClassName: aCSharpClassName;
+		yourself.
+]
+
 { #category : #adding }
-CodeSmellReport >> add: aFile withSmell: aMessage [
-	"Add a new record to the report with a file and message"
-	| mess dict |
-	dict := self reportsDict at: aFile ifAbsent: nil.
-	dict isNil
-		ifTrue: [ 
-			mess := OrderedCollection new.
-			mess add: aMessage.
-			self reportsDict at: aFile put: mess. 
-		]
-		ifFalse: [ 
-			dict add: aMessage.
-		].
-	
-	^self reportsDict.
+CodeSmellReport >> addDetection: aString [
+	detections add: aString.
+]
+
+{ #category : #accessing }
+CodeSmellReport >> csClassName [
+	^ csClassName
+]
+
+{ #category : #accessing }
+CodeSmellReport >> csClassName: anObject [
+	csClassName := anObject
+]
+
+{ #category : #accessing }
+CodeSmellReport >> detections [
+	^ detections
+]
+
+{ #category : #accessing }
+CodeSmellReport >> detections: anObject [
+	detections := anObject
 ]
 
 { #category : #initialization }
 CodeSmellReport >> initialize [
-	self reportsDict: Dictionary new. 
-	^self
+	detections:= OrderedCollection new.
 ]
 
 { #category : #accessing }
-CodeSmellReport >> reportsDict [
-	^ reportsDict
+CodeSmellReport >> name [
+	^ name
 ]
 
 { #category : #accessing }
-CodeSmellReport >> reportsDict: anObject [
-	reportsDict := anObject
+CodeSmellReport >> name: anObject [
+	name := anObject
 ]

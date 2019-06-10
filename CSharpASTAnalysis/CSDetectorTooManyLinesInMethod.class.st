@@ -29,18 +29,25 @@ CSDetectorTooManyLinesInMethod >> methodBodyMaxlength: anObject [
 
 { #category : #private }
 CSDetectorTooManyLinesInMethod >> printResult [
-	| text |
+	| text report |
+	report := CodeSmellReport new.
+	report name: (self printString). 
 	text := WriteStream on: ''.
-	tooManyLinesMethods keysAndValuesDo: [ :method :lines | text nextPutAll: 'Class "';
-						nextPutAll: method parent name value;
-						nextPutAll: '", Method "';
+	tooManyLinesMethods keysAndValuesDo: [ :method :lines | 
+						report csClassName: method parent name value.
+						text nextPutAll: '"';
 						nextPutAll: method header name value;
-						nextPutAll: '" has too many lines with ';
+						nextPutAll: '" method has too many lines, with: "';
 						nextPutAll: lines printString;
-						nextPutAll: ' lines.';
-						nextPut: Character cr. 
+						nextPutAll: '" lines.'.
+						report addDetection: text.
 			].
-	^ text contents.
+	^ report.
+]
+
+{ #category : #printing }
+CSDetectorTooManyLinesInMethod >> printString [
+	^ 'Too Many Lines in Method'
 ]
 
 { #category : #visitor }

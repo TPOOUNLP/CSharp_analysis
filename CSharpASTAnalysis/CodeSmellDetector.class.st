@@ -19,7 +19,7 @@ CodeSmellDetector >> detect: aCompilationNode [
 { #category : #detection }
 CodeSmellDetector >> detectCodeSmell: aCompilationNode [
 	"Base method to detect code smells from a SmaCC node"
-
+	self initialize.
 	self detect: aCompilationNode.
 	^ self printResult.
 ]
@@ -28,16 +28,10 @@ CodeSmellDetector >> detectCodeSmell: aCompilationNode [
 CodeSmellDetector >> detectCodeSmellFromCollection: anAstCollection [
 	"Base method to detect code smells from a collection of nodes"
 
-	| text |
-	text := WriteStream on: ''.
-	anAstCollection
-		do: [ :ast |
-			text
-				nextPutAll: (ast attributes at:#filename);
-				nextPut: Character cr;
-				nextPutAll: (self detectCodeSmell: ast);
-				nextPut: Character cr. ].
-	^ text contents
+	| reports |
+	reports := OrderedCollection new.
+	reports:= anAstCollection collect: [ :ast | (self detectCodeSmell: ast). ].
+	^ reports.
 ]
 
 { #category : #private }

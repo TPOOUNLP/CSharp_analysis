@@ -29,21 +29,28 @@ CSDetectorTooManyMethods >> length: anObject [
 
 { #category : #private }
 CSDetectorTooManyMethods >> printResult [
-	| text |
-	text := WriteStream on: ''.
+	| text report |
+	report := CodeSmellReport new.
+	report name: (self printString). 
 	methods sortedElements
 		do: [ :class | 
 			(methods occurrencesOf: class key) > length
-				ifTrue: [ text
-						nextPutAll: 'Class: "';
+				ifTrue: [ report csClassName: class key.
+						text := WriteStream on: ''.
+						text nextPutAll: '"'; 
 						nextPutAll: class key;
-						nextPutAll: '": ';
+						nextPutAll: '" class has ';
 						nextPutAll: (methods occurrencesOf: class key) printString;
-						nextPutAll: ' methods.';
-						nextPut: Character cr. 
+						nextPutAll: ' methods.'.
+						report addDetection: text.
 				]. 
 			].
-	^ text contents.
+	^ report.
+]
+
+{ #category : #printing }
+CSDetectorTooManyMethods >> printString [
+	^ 'Too Many Methods'
 ]
 
 { #category : #visitor }
