@@ -23,12 +23,14 @@ CSDetectorRepeatedMethodBody >> evaluateRepeatedMethods [
 { #category : #initialization }
 CSDetectorRepeatedMethodBody >> initialize [
 	methods := OrderedCollection new.
+	duplicatedMethods := OrderedCollection new.
 ]
 
 { #category : #private }
 CSDetectorRepeatedMethodBody >> printResult [
 	| text |
 	text := WriteStream on: ''.
+	self evaluateRepeatedMethods.
 	duplicatedMethods do: [ :method | text nextPutAll: 'Class "';
 						nextPutAll: method parent name value;
 						nextPutAll: '", Method "';
