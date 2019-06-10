@@ -50,9 +50,8 @@ CSDetectorRepeatedMethodBody >> printResult [
 	duplicatedMethods do: [ :method | 
 		report csClassName: (method parent name value).
 		text := WriteStream on: ''.
-		text nextPutAll: '"'; 
-		nextPutAll: method header name value;
-		nextPutAll: '" method has a repeated implementation.'.
+		text nextPutAll: method header name value;
+		nextPutAll: ' method has a repeated implementation'.
 		report addDetection: text.
 	].
 	^ report.

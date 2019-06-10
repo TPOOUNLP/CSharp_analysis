@@ -16,7 +16,8 @@ Class {
 	#name : #CSharpProjectManager,
 	#superclass : #Object,
 	#instVars : [
-		'cSharpAnalyzer'
+		'cSharpAnalyzer',
+		'reports'
 	],
 	#category : #CSharpASTAnalysis
 }
@@ -50,7 +51,8 @@ CSharpProjectManager >> astCollection: anAstCollection [
 CSharpProjectManager >> detectCodeSmells [
 	"Detects code smells from the loaded project. Returns a collection of reports."
 
-	^cSharpAnalyzer detect.
+	reports:= cSharpAnalyzer detect.
+	^reports.
 ]
 
 { #category : #accessing }
@@ -66,6 +68,7 @@ CSharpProjectManager >> detectors: aDetectorsCollection [
 { #category : #initialization }
 CSharpProjectManager >> initialize [
 	cSharpAnalyzer := CSharpAnalyzer new.
+	reports:= OrderedCollection new.
 ]
 
 { #category : #'file in/out' }
@@ -94,5 +97,16 @@ CSharpProjectManager >> saveParsingTo: aFilePath [
 	workingDir := FileSystem disk workingDirectory.
 	fstream := (workingDir / aFilePath) writeStream.
 	fstream nextPutAll: ston.
+	fstream close
+]
+
+{ #category : #detection }
+CSharpProjectManager >> saveReportsAsJson: aJsonFilePath [
+	| json fstream workingDir |
+	json:= WriteStream on: ''.
+	reports do: [ :csreports | csreports do: [ :report | json:= ( report toJSON ) ] ].
+	workingDir := FileSystem disk workingDirectory.
+	fstream := (workingDir / aJsonFilePath) writeStream.
+	fstream nextPutAll: json.
 	fstream close
 ]

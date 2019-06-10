@@ -35,11 +35,10 @@ CSDetectorTooManyLinesInMethod >> printResult [
 	text := WriteStream on: ''.
 	tooManyLinesMethods keysAndValuesDo: [ :method :lines | 
 						report csClassName: method parent name value.
-						text nextPutAll: '"';
-						nextPutAll: method header name value;
-						nextPutAll: '" method has too many lines, with: "';
+						text nextPutAll: method header name value;
+						nextPutAll: ' method has too many lines, with: ';
 						nextPutAll: lines printString;
-						nextPutAll: '" lines.'.
+						nextPutAll: ' lines'.
 						report addDetection: text.
 			].
 	^ report.

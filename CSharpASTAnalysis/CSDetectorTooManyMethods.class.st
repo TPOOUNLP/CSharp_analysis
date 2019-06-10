@@ -37,11 +37,10 @@ CSDetectorTooManyMethods >> printResult [
 			(methods occurrencesOf: class key) > length
 				ifTrue: [ report csClassName: class key.
 						text := WriteStream on: ''.
-						text nextPutAll: '"'; 
-						nextPutAll: class key;
-						nextPutAll: '" class has ';
+						text nextPutAll: class key;
+						nextPutAll: ' class has ';
 						nextPutAll: (methods occurrencesOf: class key) printString;
-						nextPutAll: ' methods.'.
+						nextPutAll: ' methods'.
 						report addDetection: text.
 				]. 
 			].
