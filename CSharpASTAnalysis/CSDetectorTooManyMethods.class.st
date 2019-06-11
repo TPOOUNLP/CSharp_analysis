@@ -12,6 +12,11 @@ Class {
 }
 
 { #category : #initialization }
+CSDetectorTooManyMethods >> clearInternalStates [
+	methods := Bag new.
+]
+
+{ #category : #initialization }
 CSDetectorTooManyMethods >> initialize [
 	methods := Bag new.
 	length := 30.
@@ -43,6 +48,7 @@ CSDetectorTooManyMethods >> printResult [
 						nextPut: Character cr. 
 				]. 
 			].
+	methods := Bag new.
 	^ text contents.
 ]
 

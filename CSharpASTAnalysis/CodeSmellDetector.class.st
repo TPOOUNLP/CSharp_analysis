@@ -9,6 +9,10 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
+{ #category : #private }
+CodeSmellDetector >> clearInternalStates [
+]
+
 { #category : #detection }
 CodeSmellDetector >> detect: aCompilationNode [
 	"Base method to detect a code smell, you can overwrite it if you need it"
@@ -37,6 +41,7 @@ CodeSmellDetector >> detectCodeSmellFromCollection: anAstCollection [
 				nextPut: Character cr;
 				nextPutAll: (self detectCodeSmell: ast);
 				nextPut: Character cr. ].
+	self clearInternalStates.
 	^ text contents
 ]
 

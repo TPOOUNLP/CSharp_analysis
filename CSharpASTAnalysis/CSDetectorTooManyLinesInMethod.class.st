@@ -11,6 +11,11 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
+{ #category : #private }
+CSDetectorTooManyLinesInMethod >> clearInternalStates [
+	tooManyLinesMethods := Dictionary new.
+]
+
 { #category : #initialization }
 CSDetectorTooManyLinesInMethod >> initialize [
 	tooManyLinesMethods := Dictionary new.
