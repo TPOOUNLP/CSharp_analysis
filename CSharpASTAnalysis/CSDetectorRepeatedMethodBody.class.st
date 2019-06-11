@@ -11,6 +11,19 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
+{ #category : #initialization }
+CSDetectorRepeatedMethodBody >> clearInternalStates [
+	self initialize.
+]
+
+{ #category : #visitor }
+CSDetectorRepeatedMethodBody >> detectCodeSmell: aCompilationNode [
+
+	self detect: aCompilationNode.
+	self evaluateRepeatedMethods.
+	^ self printResult.
+]
+
 { #category : #private }
 CSDetectorRepeatedMethodBody >> evaluateRepeatedMethods [
 	|bag|
@@ -23,6 +36,7 @@ CSDetectorRepeatedMethodBody >> evaluateRepeatedMethods [
 { #category : #initialization }
 CSDetectorRepeatedMethodBody >> initialize [
 	methods := OrderedCollection new.
+	duplicatedMethods := Bag new.
 ]
 
 { #category : #private }
@@ -35,6 +49,7 @@ CSDetectorRepeatedMethodBody >> printResult [
 						nextPutAll: method header name value;
 						nextPutAll: '" repeated implementation.';
 						nextPut: Character cr.
+						methods remove: method body.
 			].
 	^ text contents.
 ]
