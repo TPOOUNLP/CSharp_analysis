@@ -17,6 +17,11 @@ CSDetectorTooManyMethods >> initialize [
 	length:= 30.
 ]
 
+{ #category : #initialization }
+CSDetectorTooManyMethods >> initializeCollections [
+	methods := Bag new.
+]
+
 { #category : #accessing }
 CSDetectorTooManyMethods >> length [
 	^ length

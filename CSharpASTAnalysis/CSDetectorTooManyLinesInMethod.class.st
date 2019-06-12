@@ -17,6 +17,11 @@ CSDetectorTooManyLinesInMethod >> initialize [
 	methodBodyMaxlength := 10.
 ]
 
+{ #category : #initialization }
+CSDetectorTooManyLinesInMethod >> initializeCollections [
+	tooManyLinesMethods := Dictionary new.
+]
+
 { #category : #accessing }
 CSDetectorTooManyLinesInMethod >> methodBodyMaxlength [
 	^ methodBodyMaxlength
@@ -32,11 +37,11 @@ CSDetectorTooManyLinesInMethod >> printResult [
 	| text report |
 	report := CodeSmellReport new.
 	report name: (self printString). 
-	text := WriteStream on: ''.
 	tooManyLinesMethods keysAndValuesDo: [ :method :lines | 
 						report csClassName: method parent name value.
+						text := WriteStream on: ''.
 						text nextPutAll: method header name value;
-						nextPutAll: ' method has too many lines, with: ';
+						nextPutAll: ' method has : ';
 						nextPutAll: lines printString;
 						nextPutAll: ' lines'.
 						report addDetection: text.
