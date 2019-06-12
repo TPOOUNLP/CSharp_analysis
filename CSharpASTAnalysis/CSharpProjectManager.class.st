@@ -52,7 +52,7 @@ CSharpProjectManager >> detectCodeSmells [
 	"Detects code smells from the loaded project. Returns a collection of reports."
 
 	reports:= cSharpAnalyzer detect.
-	^reports.
+	^ reports.
 ]
 
 { #category : #accessing }
@@ -103,10 +103,22 @@ CSharpProjectManager >> saveParsingTo: aFilePath [
 { #category : #detection }
 CSharpProjectManager >> saveReportsAsJson: aJsonFilePath [
 	| json fstream workingDir |
-	json:= WriteStream on: ''.
-	reports do: [ :csreports | csreports do: [ :report | json:= ( report toJSON ) ] ].
+	json := WriteStream on: ''.
+	json
+		nextPutAll: '[';
+		nextPut: Character cr.
+	reports
+		keysAndValuesDo: [ :j :csreports | 
+			csreports
+				keysAndValuesDo: [ :i :report | 
+					report toJSON isEmpty
+						ifFalse: [ json nextPutAll: report toJSON.
+							((i = csreports size) and: (j = reports size))
+								ifFalse: [ json nextPutAll: ',' ].
+							json nextPut: Character cr ] ] ].
+	json nextPutAll: ']'.
 	workingDir := FileSystem disk workingDirectory.
 	fstream := (workingDir / aJsonFilePath) writeStream.
-	fstream nextPutAll: json.
+	fstream nextPutAll: json contents.
 	fstream close
 ]

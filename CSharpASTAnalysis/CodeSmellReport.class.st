@@ -90,18 +90,20 @@ CodeSmellReport >> toJSON [
 				nextPutAll: '"detections": [';
 				nextPut: Character cr.
 			detections
-				do: [ :detection | 
+				keysAndValuesDo: [ :i :detection | 
 					text
 						nextPut: Character tab;
 						nextPut: Character tab;
 						nextPutAll: '"';
 						nextPutAll: detection contents;
-						nextPutAll: '",';
-						nextPut: Character cr ].
+						nextPutAll: '"'.
+					i = detections size
+						ifFalse: [ text nextPutAll: ',' ].
+					text nextPut: Character cr ].
 			text
 				nextPut: Character tab;
-				nextPutAll: '],';
+				nextPutAll: ']';
 				nextPut: Character cr;
-				nextPutAll: '},' ].
-	^ text
+				nextPutAll: '}' ].
+	^ text contents
 ]

@@ -14,7 +14,7 @@ Class {
 { #category : #initialization }
 CSDetectorTooManyMethods >> initialize [
 	methods := Bag new.
-	length := 30.
+	length:= 30.
 ]
 
 { #category : #accessing }

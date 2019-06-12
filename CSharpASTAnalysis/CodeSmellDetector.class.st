@@ -19,7 +19,6 @@ CodeSmellDetector >> detect: aCompilationNode [
 { #category : #detection }
 CodeSmellDetector >> detectCodeSmell: aCompilationNode [
 	"Base method to detect code smells from a SmaCC node"
-	self initialize.
 	self detect: aCompilationNode.
 	^ self printResult.
 ]
