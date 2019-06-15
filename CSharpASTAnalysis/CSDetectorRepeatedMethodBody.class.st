@@ -26,12 +26,6 @@ CSDetectorRepeatedMethodBody >> initialize [
 	duplicatedMethods := Bag new.
 ]
 
-{ #category : #initialization }
-CSDetectorRepeatedMethodBody >> initializeCollections [
-	methods := OrderedCollection new.
-	duplicatedMethods := Bag new.
-]
-
 { #category : #private }
 CSDetectorRepeatedMethodBody >> printReport [
 	| text report |

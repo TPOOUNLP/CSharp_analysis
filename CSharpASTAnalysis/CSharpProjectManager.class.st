@@ -102,7 +102,7 @@ CSharpProjectManager >> saveParsingTo: aFilePath [
 
 { #category : #detection }
 CSharpProjectManager >> saveReportsAsJson: aJsonFilePath [
-	| json fstream workingDir |
+	| json |
 	json := WriteStream on: ''.
 	json
 		nextPutAll: '[';
@@ -117,8 +117,8 @@ CSharpProjectManager >> saveReportsAsJson: aJsonFilePath [
 								ifFalse: [ json nextPutAll: ',' ].
 							json nextPut: Character cr ] ] ].
 	json nextPutAll: ']'.
-	workingDir := FileSystem disk workingDirectory.
-	fstream := (workingDir / aJsonFilePath) writeStream.
-	fstream nextPutAll: json contents.
-	fstream close
+	"Save the stream into the file passed as a parameter"
+	(FileSystem disk workingDirectory / aJsonFilePath) writeStream
+		nextPutAll: json contents;
+		close.
 ]
