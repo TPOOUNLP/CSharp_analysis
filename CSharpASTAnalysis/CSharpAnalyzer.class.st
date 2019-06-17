@@ -1,5 +1,5 @@
 "
-A CSharp Project already parsed with the analyzer.
+A CSharp Project already parsed with the project manager.
 The ASTs of the project are stored in 'ast_collection'.
 "
 Class {

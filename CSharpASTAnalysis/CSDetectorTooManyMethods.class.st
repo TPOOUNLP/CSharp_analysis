@@ -12,6 +12,11 @@ Class {
 }
 
 { #category : #initialization }
+CSDetectorTooManyMethods >> clearInternalStates [
+	methods := Bag new.
+]
+
+{ #category : #initialization }
 CSDetectorTooManyMethods >> initialize [
 	methods := Bag new.
 	length:= 30.
@@ -31,9 +36,9 @@ CSDetectorTooManyMethods >> length: anObject [
 CSDetectorTooManyMethods >> printResult [
 	| text report |
 	report := CodeSmellReport new.
-	report name: (self printString). 
+	report name: (self printString).
 	methods sortedElements
-		do: [ :class | 
+		do: [ :class |
 			(methods occurrencesOf: class key) > length
 				ifTrue: [ report csClassName: class key.
 						text := WriteStream on: ''.
@@ -42,7 +47,7 @@ CSDetectorTooManyMethods >> printResult [
 						nextPutAll: (methods occurrencesOf: class key) printString;
 						nextPutAll: ' methods'.
 						report addDetection: text.
-				]. 
+				].
 			].
 	^ report.
 ]

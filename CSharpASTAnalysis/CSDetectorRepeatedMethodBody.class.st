@@ -11,6 +11,19 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
+{ #category : #initialization }
+CSDetectorRepeatedMethodBody >> clearInternalStates [
+	self initialize.
+]
+
+{ #category : #visitor }
+CSDetectorRepeatedMethodBody >> detectCodeSmell: aCompilationNode [
+
+	self detect: aCompilationNode.
+	self evaluateRepeatedMethods.
+	^ self printResult.
+]
+
 { #category : #private }
 CSDetectorRepeatedMethodBody >> evaluateRepeatedMethods [
 	|bag|
@@ -27,27 +40,12 @@ CSDetectorRepeatedMethodBody >> initialize [
 ]
 
 { #category : #private }
-CSDetectorRepeatedMethodBody >> printReport [
-	| text report |
-	text := WriteStream on: ''.
- 	report := CodeSmellReport new.
-	self evaluateRepeatedMethods.
-	duplicatedMethods do: [ :method | 
-						report name: (self printString); csClassName: (method parent name value).
-						text nextPutAll: method header name value;
-						nextPutAll: '" repeated implementation.'.
-						report addDetection: text.
-			].
-	^ report.
-]
-
-{ #category : #private }
 CSDetectorRepeatedMethodBody >> printResult [
 	| text report |
 	report := CodeSmellReport new.
-	report name: (self printString). 
+	report name: (self printString).
 	self evaluateRepeatedMethods.
-	duplicatedMethods do: [ :method | 
+	duplicatedMethods do: [ :method |
 		report csClassName: (method parent name value).
 		text := WriteStream on: ''.
 		text nextPutAll: method header name value;
