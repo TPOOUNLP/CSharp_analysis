@@ -16,7 +16,8 @@ Class {
 	#name : #CSharpProjectManager,
 	#superclass : #Object,
 	#instVars : [
-		'cSharpAnalyzer'
+		'cSharpAnalyzer',
+		'reports'
 	],
 	#category : #CSharpASTAnalysis
 }
@@ -50,7 +51,8 @@ CSharpProjectManager >> astCollection: anAstCollection [
 CSharpProjectManager >> detectCodeSmells [
 	"Detects code smells from the loaded project. Returns a collection of reports."
 
-	^cSharpAnalyzer detect.
+	reports:= cSharpAnalyzer detect.
+	^ reports.
 ]
 
 { #category : #accessing }
@@ -66,6 +68,7 @@ CSharpProjectManager >> detectors: aDetectorsCollection [
 { #category : #initialization }
 CSharpProjectManager >> initialize [
 	cSharpAnalyzer := CSharpAnalyzer new.
+	reports:= OrderedCollection new.
 ]
 
 { #category : #'file in/out' }
@@ -95,4 +98,27 @@ CSharpProjectManager >> saveParsingTo: aFilePath [
 	fstream := (workingDir / aFilePath) writeStream.
 	fstream nextPutAll: ston.
 	fstream close
+]
+
+{ #category : #detection }
+CSharpProjectManager >> saveReportsAsJson: aJsonFilePath [
+	| json |
+	json := WriteStream on: ''.
+	json
+		nextPutAll: '[';
+		nextPut: Character cr.
+	reports
+		keysAndValuesDo: [ :j :csreports | 
+			csreports
+				keysAndValuesDo: [ :i :report | 
+					report toJSON isEmpty
+						ifFalse: [ json nextPutAll: report toJSON.
+							((i = csreports size) and: (j = reports size))
+								ifFalse: [ json nextPutAll: ',' ].
+							json nextPut: Character cr ] ] ].
+	json nextPutAll: ']'.
+	"Save the stream into the file passed as a parameter"
+	(FileSystem disk workingDirectory / aJsonFilePath) writeStream
+		nextPutAll: json contents;
+		close.
 ]

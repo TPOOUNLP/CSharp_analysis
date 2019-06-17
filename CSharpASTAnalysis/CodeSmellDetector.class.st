@@ -9,10 +9,6 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
-{ #category : #private }
-CodeSmellDetector >> clearInternalStates [
-]
-
 { #category : #detection }
 CodeSmellDetector >> detect: aCompilationNode [
 	"Base method to detect a code smell, you can overwrite it if you need it"
@@ -23,7 +19,6 @@ CodeSmellDetector >> detect: aCompilationNode [
 { #category : #detection }
 CodeSmellDetector >> detectCodeSmell: aCompilationNode [
 	"Base method to detect code smells from a SmaCC node"
-
 	self detect: aCompilationNode.
 	^ self printResult.
 ]
@@ -32,17 +27,10 @@ CodeSmellDetector >> detectCodeSmell: aCompilationNode [
 CodeSmellDetector >> detectCodeSmellFromCollection: anAstCollection [
 	"Base method to detect code smells from a collection of nodes"
 
-	| text |
-	text := WriteStream on: ''.
-	anAstCollection
-		do: [ :ast |
-			text
-				nextPutAll: (ast attributes at:#filename);
-				nextPut: Character cr;
-				nextPutAll: (self detectCodeSmell: ast);
-				nextPut: Character cr. ].
-	self clearInternalStates.
-	^ text contents
+	| reports |
+	reports := OrderedCollection new.
+	reports:= anAstCollection collect: [ :ast | (self detectCodeSmell: ast). ].
+	^ reports.
 ]
 
 { #category : #private }

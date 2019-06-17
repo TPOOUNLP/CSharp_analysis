@@ -11,11 +11,6 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
-{ #category : #initialization }
-CSDetectorRepeatedMethodBody >> clearInternalStates [
-	self initialize.
-]
-
 { #category : #visitor }
 CSDetectorRepeatedMethodBody >> detectCodeSmell: aCompilationNode [
 
@@ -27,7 +22,7 @@ CSDetectorRepeatedMethodBody >> detectCodeSmell: aCompilationNode [
 { #category : #private }
 CSDetectorRepeatedMethodBody >> evaluateRepeatedMethods [
 	|bag|
-	duplicatedMethods := Bag new.
+	duplicatedMethods:= Bag new.
 	bag := methods asBag.
 	methods do: [:each | (bag occurrencesOf: each) > 1 ifTrue: [duplicatedMethods add: each parent]].
 
@@ -41,17 +36,23 @@ CSDetectorRepeatedMethodBody >> initialize [
 
 { #category : #private }
 CSDetectorRepeatedMethodBody >> printResult [
-	| text |
-	text := WriteStream on: ''.
-	duplicatedMethods do: [ :method | text nextPutAll: 'Class "';
-						nextPutAll: method parent name value;
-						nextPutAll: '", Method "';
-						nextPutAll: method header name value;
-						nextPutAll: '" repeated implementation.';
-						nextPut: Character cr.
-						methods remove: method body.
-			].
-	^ text contents.
+	| text report |
+	report := CodeSmellReport new.
+	report name: (self printString).
+	self evaluateRepeatedMethods.
+	duplicatedMethods do: [ :method |
+		report csClassName: (method parent name value).
+		text := WriteStream on: ''.
+		text nextPutAll: method header name value;
+		nextPutAll: ' method has a repeated implementation'.
+		report addDetection: text.
+	].
+	^ report.
+]
+
+{ #category : #printing }
+CSDetectorRepeatedMethodBody >> printString [
+	^ 'Repeated Methods'
 ]
 
 { #category : #visitor }
