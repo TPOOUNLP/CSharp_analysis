@@ -12,11 +12,6 @@ Class {
 }
 
 { #category : #initialization }
-CSDetectorTooManyMethods >> clearInternalStates [
-	methods := Bag new.
-]
-
-{ #category : #initialization }
 CSDetectorTooManyMethods >> initialize [
 	methods := Bag new.
 	length:= 30.

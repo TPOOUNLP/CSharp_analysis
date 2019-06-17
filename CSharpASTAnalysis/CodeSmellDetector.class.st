@@ -9,10 +9,6 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
-{ #category : #private }
-CodeSmellDetector >> clearInternalStates [
-]
-
 { #category : #detection }
 CodeSmellDetector >> detect: aCompilationNode [
 	"Base method to detect a code smell, you can overwrite it if you need it"

@@ -11,11 +11,6 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
-{ #category : #initialization }
-CSDetectorRepeatedMethodBody >> clearInternalStates [
-	self initialize.
-]
-
 { #category : #visitor }
 CSDetectorRepeatedMethodBody >> detectCodeSmell: aCompilationNode [
 
