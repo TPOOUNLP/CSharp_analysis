@@ -1,5 +1,5 @@
 "
-CodeSmellDetector to detect code smell of repeated method body.
+I'm a CodeSmellDetector that detects code smell of repeated method body.
 "
 Class {
 	#name : #CSDetectorRepeatedMethodBody,
@@ -10,14 +10,6 @@ Class {
 	],
 	#category : #CSharpASTAnalysis
 }
-
-{ #category : #visitor }
-CSDetectorRepeatedMethodBody >> detectCodeSmell: aCompilationNode [
-
-	self detect: aCompilationNode.
-	self evaluateRepeatedMethods.
-	^ self printResult.
-]
 
 { #category : #private }
 CSDetectorRepeatedMethodBody >> evaluateRepeatedMethods [
@@ -30,6 +22,12 @@ CSDetectorRepeatedMethodBody >> evaluateRepeatedMethods [
 
 { #category : #initialization }
 CSDetectorRepeatedMethodBody >> initialize [
+	methods := OrderedCollection new.
+	duplicatedMethods := Bag new.
+]
+
+{ #category : #initialization }
+CSDetectorRepeatedMethodBody >> initializeCollections [
 	methods := OrderedCollection new.
 	duplicatedMethods := Bag new.
 ]

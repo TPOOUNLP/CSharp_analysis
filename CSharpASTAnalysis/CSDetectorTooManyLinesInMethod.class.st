@@ -1,5 +1,5 @@
 "
-CodeSmellDetector to detect code smell of too many lines in a method.
+I'm a CodeSmellDetector thar detects code smell of too many lines in a method.
 "
 Class {
 	#name : #CSDetectorTooManyLinesInMethod,
@@ -15,6 +15,11 @@ Class {
 CSDetectorTooManyLinesInMethod >> initialize [
 	tooManyLinesMethods := Dictionary new.
 	methodBodyMaxlength := 10.
+]
+
+{ #category : #initialization }
+CSDetectorTooManyLinesInMethod >> initializeCollections [
+	tooManyLinesMethods := Dictionary new.
 ]
 
 { #category : #accessing }

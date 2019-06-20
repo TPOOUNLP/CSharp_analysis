@@ -1,3 +1,6 @@
+"
+I'm a CodeSmellDetector that detects code smell of having too many parameters in a method.
+"
 Class {
 	#name : #CSDetectorTooManyMethodParameters,
 	#superclass : #CodeSmellDetector,
@@ -36,6 +39,11 @@ CSDetectorTooManyMethodParameters >> initialize [
 
 	methods := Dictionary new.
 	length := 30.
+]
+
+{ #category : #initialization }
+CSDetectorTooManyMethodParameters >> initializeCollections [
+	methods := Dictionary new.
 ]
 
 { #category : #accessing }

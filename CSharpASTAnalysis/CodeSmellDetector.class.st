@@ -19,8 +19,11 @@ CodeSmellDetector >> detect: aCompilationNode [
 { #category : #detection }
 CodeSmellDetector >> detectCodeSmell: aCompilationNode [
 	"Base method to detect code smells from a SmaCC node"
+	| report |
 	self detect: aCompilationNode.
-	^ self printResult.
+	report:= self printResult.
+	self initializeCollections.
+	^ report.
 ]
 
 { #category : #detection }
@@ -31,6 +34,12 @@ CodeSmellDetector >> detectCodeSmellFromCollection: anAstCollection [
 	reports := OrderedCollection new.
 	reports:= anAstCollection collect: [ :ast | (self detectCodeSmell: ast). ].
 	^ reports.
+]
+
+{ #category : #initialization }
+CodeSmellDetector >> initializeCollections [
+	"Initialize all the instance variable collections after visiting an AST"
+	^ self subclassResponsibility.
 ]
 
 { #category : #private }

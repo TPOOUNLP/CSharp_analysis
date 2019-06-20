@@ -1,3 +1,6 @@
+"
+I'm a CodeSmellDetector that detects code smell of an identifier being too long.
+"
 Class {
 	#name : #CSDetectorIdentifierTooLong,
 	#superclass : #CodeSmellDetector,
@@ -16,13 +19,13 @@ CSDetectorIdentifierTooLong >> detectCodeSmell: aCompilationNode [
 	^ self printResult.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accesing }
 CSDetectorIdentifierTooLong >> idSize [
 
 	^size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accesing }
 CSDetectorIdentifierTooLong >> idSize: anObject [
 
 	size := anObject
@@ -33,6 +36,11 @@ CSDetectorIdentifierTooLong >> initialize [
 
 	ids := OrderedCollection new.
 	size := 30.
+]
+
+{ #category : #initialization }
+CSDetectorIdentifierTooLong >> initializeCollections [
+	ids := OrderedCollection new.
 ]
 
 { #category : #private }
