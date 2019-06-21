@@ -32,8 +32,11 @@ CodeSmellDetector >> detectCodeSmellFromCollection: anAstCollection [
 
 	| reports |
 	reports := OrderedCollection new.
-	reports:= anAstCollection collect: [ :ast | (self detectCodeSmell: ast). ].
-	^ reports.
+	reports := anAstCollection
+		collect: [ :ast | (self detectCodeSmell: ast) ].
+	reports:= reports
+		select: [ :report | report csClassName isNotEmpty  ].
+	^ reports
 ]
 
 { #category : #initialization }
