@@ -52,7 +52,7 @@ CSharpProjectManager >> detectCodeSmells [
 	"Detects code smells from the loaded project. Returns a collection of reports."
 
 	reports:= cSharpAnalyzer detect.
-	^ reports.
+	^ reports reject: [ :report | report isEmpty ].
 ]
 
 { #category : #accessing }
