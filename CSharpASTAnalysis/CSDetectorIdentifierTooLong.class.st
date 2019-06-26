@@ -6,18 +6,11 @@ Class {
 	#superclass : #CodeSmellDetector,
 	#instVars : [
 		'ids',
-		'size'
+		'size',
+		'currentClass'
 	],
 	#category : #CSharpASTAnalysis
 }
-
-{ #category : #detection }
-CSDetectorIdentifierTooLong >> detectCodeSmell: aCompilationNode [
-	"Base method to detect code smells from a SmaCC node"
-	ids := OrderedCollection new.
-	self detect: aCompilationNode.
-	^ self printResult.
-]
 
 { #category : #accesing }
 CSDetectorIdentifierTooLong >> idSize [
@@ -46,17 +39,23 @@ CSDetectorIdentifierTooLong >> initializeCollections [
 { #category : #private }
 CSDetectorIdentifierTooLong >> printResult [
 
-	| text |
-	text := WriteStream on: ''.
+	| text report |
+	
+	report := CodeSmellReport new.
+	report name: 'Identifier Too Long'.
 	(ids select: [ :id | id isNil not. ]) 
-		do: [ :id | text nextPutAll: (id printMessageTooLong: size);
-						nextPut: Character cr. ].
-	^ text contents.
+		do: [ :id | text := WriteStream on: ''.
+						text nextPutAll: (id printMessageTooLong: size).
+						report csClassName: currentClass.
+						report addDetection: text contents. ].
+	^ report.
+	
 ]
 
 { #category : #generated }
 CSDetectorIdentifierTooLong >> visitClassDeclaration: aClassDeclaration [ 
 	
+	currentClass := aClassDeclaration name value.
 	(aClassDeclaration name value size > size)
 		ifTrue: [ids add: (CSIdentifier new withName: aClassDeclaration name value location: ('class ', aClassDeclaration name value))].
 	

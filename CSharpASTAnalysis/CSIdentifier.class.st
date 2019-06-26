@@ -22,8 +22,6 @@ CSIdentifier >> printMessageTooLong: anIdentifierMaxLength [
 	message
 		nextPutAll: 'The identifier "';
 		nextPutAll: idname;
-		nextPutAll: '" from ';
-		nextPutAll: idlocation;
 		nextPutAll: ' has ';
 		nextPutAll: idname size printString;
 		nextPutAll: ' characters. The upper-bound limit is ';

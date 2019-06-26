@@ -11,29 +11,6 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
-{ #category : #detection }
-CSDetectorTooManyMethodParameters >> detectCodeSmell: aCSCompilationUnitNode [
-
-	| code_smells |
-	code_smells := WriteStream on: ''.
-	methods := Dictionary new.
-	aCSCompilationUnitNode acceptVisitor: self.
-	methods keysAndValuesDo: [ :method :params | 
-			(params > length)
-				ifTrue: [ code_smells
-						nextPutAll: 'Method "';
-						nextPutAll: method header name value;
-						nextPutAll: '" from class "';
-						nextPutAll: method parent name value;
-						nextPutAll: '" has ';
-						nextPutAll: params printString;
-						nextPutAll: ' params. The upper-bound limit is ';
-						nextPutAll: length printString; cr.
-				]. 
-			].
-	^ code_smells contents.
-]
-
 { #category : #initialization }
 CSDetectorTooManyMethodParameters >> initialize [
 
@@ -54,6 +31,33 @@ CSDetectorTooManyMethodParameters >> length [
 { #category : #accessing }
 CSDetectorTooManyMethodParameters >> length: anObject [
 	length := anObject
+]
+
+{ #category : #private }
+CSDetectorTooManyMethodParameters >> printResult [
+	"Base method to detect code smells from a SmaCC node"
+
+	| code_smells report |
+	
+	report := CodeSmellReport new.
+	report name: 'Too Many Parameters in Method'.
+	methods keysAndValuesDo: [ :method :params | 
+			(params > length)
+				ifTrue: [ code_smells := WriteStream on: ''.
+						code_smells
+						nextPutAll: 'Method "';
+						nextPutAll: method header name value;
+						nextPutAll: '" has ';
+						nextPutAll: params printString;
+						nextPutAll: ' params. The upper-bound limit is ';
+						nextPutAll: length printString.
+						report csClassName: (method parent name value).
+						report addDetection: code_smells contents.
+				]. 
+			].
+	^ report.
+	
+
 ]
 
 { #category : #generated }
