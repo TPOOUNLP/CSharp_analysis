@@ -20,12 +20,12 @@ CSIdentifier >> printMessageTooLong: anIdentifierMaxLength [
 	| message |
 	message := WriteStream on: ''.
 	message
-		nextPutAll: 'The identifier "';
+		nextPutAll: 'The identifier ';
 		nextPutAll: idname;
 		nextPutAll: ' has ';
 		nextPutAll: idname size printString;
 		nextPutAll: ' characters. The upper-bound limit is ';
-		nextPutAll: anIdentifierMaxLength printString; cr.
+		nextPutAll: anIdentifierMaxLength printString.
 	
 	^message contents.
 ]

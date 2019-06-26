@@ -113,7 +113,7 @@ CSharpProjectManager >> saveReportsAsJson: aJsonFilePath [
 				keysAndValuesDo: [ :i :report | 
 					report toJSON isEmpty
 						ifFalse: [ json nextPutAll: report toJSON.
-							((i = csreports size) and: (j = reports size))
+							((i = csreports size) and: (j + 1 = reports size))
 								ifFalse: [ json nextPutAll: ',' ].
 							json nextPut: Character cr ] ] ].
 	json nextPutAll: ']'.
