@@ -1,3 +1,6 @@
+"
+I'm a Csharp Identifier, I have my name and my location in a C# project.
+"
 Class {
 	#name : #CSIdentifier,
 	#superclass : #Object,
@@ -8,10 +11,9 @@ Class {
 	#category : #CSharpASTAnalysis
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CSIdentifier >> idName [
-
-	^idname.
+	^ idname.
 ]
 
 { #category : #printing }
@@ -27,10 +29,10 @@ CSIdentifier >> printMessageTooLong: anIdentifierMaxLength [
 		nextPutAll: ' characters. The upper-bound limit is ';
 		nextPutAll: anIdentifierMaxLength printString.
 	
-	^message contents.
+	^ message contents.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #setting }
 CSIdentifier >> withName: aName location: aLocation [
 	
 	idname := aName.
