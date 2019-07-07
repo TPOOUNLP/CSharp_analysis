@@ -90,6 +90,11 @@ CSharpProjectManager >> parseCSharpProject: aProjectFolder [
 	self astCollection: (files collect: [ :each | CSharpParser parseFile: each fullName ]).
 ]
 
+{ #category : #accessing }
+CSharpProjectManager >> reports [
+	^ reports
+]
+
 { #category : #'file in/out' }
 CSharpProjectManager >> saveParsingTo: aFilePath [
 	| ston fstream workingDir |
