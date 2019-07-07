@@ -38,18 +38,16 @@ CSDetectorIdentifierTooLong >> initializeCollections [
 
 { #category : #private }
 CSDetectorIdentifierTooLong >> printResult [
-
 	| text report |
-	
 	report := CodeSmellReport new.
 	report name: 'Identifier Too Long'.
-	(ids select: [ :id | id isNil not. ]) 
-		do: [ :id | text := WriteStream on: ''.
-						text nextPutAll: (id printMessageTooLong: size).
-						report csClassName: currentClass.
-						report addDetection: text contents. ].
-	^ report.
-	
+	(ids reject: [ :id | id isNil ])
+		do: [ :id | 
+			text := WriteStream on: ''.
+			text nextPutAll: (id printMessageTooLong: size).
+			report csClassName: currentClass.
+			report addDetection: text contents ].
+	^ report
 ]
 
 { #category : #generated }
