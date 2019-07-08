@@ -2,7 +2,7 @@ using System;
 
 namespace CsharpProject
 {
-    class AnotherSimpleClass
+    class TooManyParametersClass
     {
         static void Main(string[] args)
         {
