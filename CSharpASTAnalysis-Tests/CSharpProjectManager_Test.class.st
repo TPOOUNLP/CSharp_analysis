@@ -43,7 +43,7 @@ CSharpProjectManager_Test >> test_identifierTooLong [
 
 { #category : #tests }
 CSharpProjectManager_Test >> test_init [
-	self assert: (aProjectManager astCollection size) equals: 8.
+	self assert: (aProjectManager astCollection size) equals: 9.
 ]
 
 { #category : #tests }
@@ -53,7 +53,7 @@ CSharpProjectManager_Test >> test_parsing [
 	aProjectManager:= CSharpProjectManager new.
 	self deny: (aProjectManager astCollection notNil).
 	aProjectManager loadParsing: 'parsing.STON'.
-	self assert: (aProjectManager astCollection size) equals: 8.
+	self assert: (aProjectManager astCollection size) equals: 9.
 ]
 
 { #category : #tests }
@@ -80,6 +80,19 @@ CSharpProjectManager_Test >> test_tooManyLinesInMethod [
 	reports:= (aProjectManager reports at: 1).
 	self assert: reports size equals: 1.
 	self assert: ((reports at: 1) name) equals: 'Too Many Lines in Method'.
+]
+
+{ #category : #tests }
+CSharpProjectManager_Test >> test_tooManyMethodParameters [
+	"Test case of the too many parameters in a method code smell detector"
+	| reports |
+	aProjectManager addDetector: CSDetectorTooManyMethodParameters new.
+	aProjectManager detectCodeSmells.
+   self assert: (aProjectManager reports size) equals: 1.
+	reports:= (aProjectManager reports at: 1).
+	self assert: reports size equals: 1.
+	self assert: ((reports at: 1) name) equals: 'Too Many Parameters in Method'.
+	self assert: ((reports at: 1) csClassName) equals: 'TooManyParametersClass'.
 ]
 
 { #category : #tests }
