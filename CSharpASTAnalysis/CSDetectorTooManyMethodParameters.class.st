@@ -15,7 +15,7 @@ Class {
 CSDetectorTooManyMethodParameters >> initialize [
 
 	methods := Dictionary new.
-	length := 30.
+	length := 4.
 ]
 
 { #category : #initialization }

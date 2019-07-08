@@ -28,6 +28,20 @@ CSharpProjectManager_Test >> setUp [
 ]
 
 { #category : #tests }
+CSharpProjectManager_Test >> test_identifierTooLong [
+	"Test case of the identifier too long code smell detector"
+	| reports |
+	aProjectManager addDetector: CSDetectorIdentifierTooLong new.
+	aProjectManager detectCodeSmells.
+   self assert: (aProjectManager reports size) equals: 1.
+	reports:= (aProjectManager reports at: 1).
+	self assert: reports size equals: 2.
+	self assert: ((reports at: 1) name) equals: 'Identifier Too Long'.
+	self assert: ((reports at: 1) csClassName) equals: 'IdentifierTooLongClass'.
+	self assert: ((reports at: 2) csClassName) equals: 'AnotherClassWithRepeatedMethods'.
+]
+
+{ #category : #tests }
 CSharpProjectManager_Test >> test_init [
 	self assert: (aProjectManager astCollection size) equals: 8.
 ]
@@ -40,6 +54,32 @@ CSharpProjectManager_Test >> test_parsing [
 	self deny: (aProjectManager astCollection notNil).
 	aProjectManager loadParsing: 'parsing.STON'.
 	self assert: (aProjectManager astCollection size) equals: 8.
+]
+
+{ #category : #tests }
+CSharpProjectManager_Test >> test_repeatedMethodBody [
+	"Test case of the repeated method body code smell detector"
+	| reports |
+	aProjectManager addDetector: CSDetectorRepeatedMethodBody new.
+	aProjectManager detectCodeSmells.
+   self assert: (aProjectManager reports size) equals: 1.
+	reports:= (aProjectManager reports at: 1).
+	self assert: reports size equals: 2.
+	self assert: ((reports at: 1) name) equals: 'Repeated Methods'.
+	self assert: ((reports at: 1) csClassName) equals: 'AnotherClassWithRepeatedMethods'.
+	self assert: ((reports at: 2) csClassName) equals: 'ClassWithRepeatedMethods'.
+]
+
+{ #category : #tests }
+CSharpProjectManager_Test >> test_tooManyLinesInMethod [
+	"Test case of the too many lines in methods code smell detector"
+	| reports |
+	aProjectManager addDetector: CSDetectorTooManyLinesInMethod new.
+	aProjectManager detectCodeSmells.
+   self assert: (aProjectManager reports size) equals: 1.
+	reports:= (aProjectManager reports at: 1).
+	self assert: reports size equals: 1.
+	self assert: ((reports at: 1) name) equals: 'Too Many Lines in Method'.
 ]
 
 { #category : #tests }
