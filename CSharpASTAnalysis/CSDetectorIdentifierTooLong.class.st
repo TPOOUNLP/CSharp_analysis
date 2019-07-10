@@ -41,6 +41,7 @@ CSDetectorIdentifierTooLong >> printResult [
 	| text report |
 	report := CodeSmellReport new.
 	report name: 'Identifier Too Long'.
+	report csFilePath: filePath.
 	(ids reject: [ :id | id isNil ])
 		do: [ :id | 
 			text := WriteStream on: ''.

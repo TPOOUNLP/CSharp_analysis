@@ -41,13 +41,14 @@ CSDetectorTooManyMethodParameters >> printResult [
 	
 	report := CodeSmellReport new.
 	report name: 'Too Many Parameters in Method'.
+	report csFilePath: filePath.
 	methods keysAndValuesDo: [ :method :params | 
 			(params > length)
 				ifTrue: [ code_smells := WriteStream on: ''.
 						code_smells
-						nextPutAll: 'Method "';
+						nextPutAll: 'Method ';
 						nextPutAll: method header name value;
-						nextPutAll: '" has ';
+						nextPutAll: ' has ';
 						nextPutAll: params printString;
 						nextPutAll: ' params. The upper-bound limit is ';
 						nextPutAll: length printString.

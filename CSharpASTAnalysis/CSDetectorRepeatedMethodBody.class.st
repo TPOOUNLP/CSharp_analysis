@@ -37,6 +37,7 @@ CSDetectorRepeatedMethodBody >> printResult [
 	| text report |
 	report := CodeSmellReport new.
 	report name: (self printString).
+	report csFilePath: filePath.
 	self evaluateRepeatedMethods.
 	duplicatedMethods do: [ :method |
 		report csClassName: (method parent name value).

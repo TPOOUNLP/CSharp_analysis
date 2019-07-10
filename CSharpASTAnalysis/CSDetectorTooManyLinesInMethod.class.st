@@ -37,6 +37,7 @@ CSDetectorTooManyLinesInMethod >> printResult [
 	| text report |
 	report := CodeSmellReport new.
 	report name: (self printString). 
+	report csFilePath: filePath.
 	tooManyLinesMethods keysAndValuesDo: [ :method :lines | 
 						report csClassName: method parent name value.
 						text := WriteStream on: ''.

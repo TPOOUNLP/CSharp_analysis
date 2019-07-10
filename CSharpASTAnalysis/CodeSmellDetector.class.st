@@ -6,6 +6,9 @@ It visits the ASTs to detect an specific code smell.
 Class {
 	#name : #CodeSmellDetector,
 	#superclass : #CSProgramNodeVisitor,
+	#instVars : [
+		'filePath'
+	],
 	#category : #CSharpASTAnalysis
 }
 
@@ -21,6 +24,7 @@ CodeSmellDetector >> detectCodeSmell: aCompilationNode [
 	"Base method to detect code smells from a SmaCC node"
 	| report |
 	self detect: aCompilationNode.
+	filePath:= aCompilationNode filename.
 	report:= self printResult.
 	self initializeCollections.
 	^ report.
@@ -37,6 +41,16 @@ CodeSmellDetector >> detectCodeSmellFromCollection: anAstCollection [
 	reports:= reports
 		select: [ :report | report csClassName isNotEmpty  ].
 	^ reports
+]
+
+{ #category : #accessing }
+CodeSmellDetector >> filePath [
+	^ filePath
+]
+
+{ #category : #accessing }
+CodeSmellDetector >> filePath: anObject [
+	filePath := anObject
 ]
 
 { #category : #initialization }

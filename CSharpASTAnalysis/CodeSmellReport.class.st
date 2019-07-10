@@ -6,6 +6,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'name',
+		'csFilePath',
 		'csClassName',
 		'detections'
 	],
@@ -40,6 +41,16 @@ CodeSmellReport >> csClassName [
 { #category : #accessing }
 CodeSmellReport >> csClassName: anObject [
 	csClassName := anObject
+]
+
+{ #category : #accessing }
+CodeSmellReport >> csFilePath [
+	^ csFilePath
+]
+
+{ #category : #accessing }
+CodeSmellReport >> csFilePath: anObject [
+	csFilePath := anObject
 ]
 
 { #category : #accessing }
@@ -79,6 +90,11 @@ CodeSmellReport >> toJSON [
 				nextPut: Character tab;
 				nextPutAll: '"name": "';
 				nextPutAll: self name;
+				nextPutAll: '",';
+				nextPut: Character cr;
+				nextPut: Character tab;
+				nextPutAll: '"path": "';
+				nextPutAll: self csFilePath;
 				nextPutAll: '",';
 				nextPut: Character cr;
 				nextPut: Character tab;

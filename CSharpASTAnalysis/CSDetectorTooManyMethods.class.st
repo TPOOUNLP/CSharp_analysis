@@ -37,6 +37,7 @@ CSDetectorTooManyMethods >> printResult [
 	| text report |
 	report := CodeSmellReport new.
 	report name: (self printString).
+	report csFilePath: filePath.
 	methods sortedElements
 		do: [ :class |
 			(methods occurrencesOf: class key) > length
