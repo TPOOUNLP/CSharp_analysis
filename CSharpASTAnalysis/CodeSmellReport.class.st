@@ -69,6 +69,11 @@ CodeSmellReport >> initialize [
 	csClassName:= ''.
 ]
 
+{ #category : #testing }
+CodeSmellReport >> isEmpty [
+	^false
+]
+
 { #category : #accessing }
 CodeSmellReport >> name [
 	^ name

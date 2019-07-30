@@ -51,7 +51,7 @@ CSharpProjectManager >> astCollection: anAstCollection [
 CSharpProjectManager >> detectCodeSmells [
 	"Detects code smells from the loaded project. Returns a collection of reports."
 
-	reports:= cSharpAnalyzer detect.
+	reports addAll: cSharpAnalyzer detect.
 	^ reports reject: [ :report | report isEmpty ].
 ]
 
@@ -86,8 +86,23 @@ CSharpProjectManager >> parseCSharpProject: aProjectFolder [
 
 	| work files |
 	work := aProjectFolder asFileReference.
+	work exists ifFalse: [ self error: 'The specified directory does not exist.' ].
 	files := work allChildrenMatching: '*.cs'.
-	self astCollection: (files collect: [ :each | CSharpParser parseFile: each fullName ]).
+	files isEmpty ifTrue: [ self error: 'The project directory does not contain valid C# files to parse.' ].
+	self astCollection: (files collect: [ :each |
+		CSharpParser 
+			parse: (each contents) 
+			onError: [ :desc :tag | 
+				| rep |
+				rep := CodeSmellReport new.
+				rep csFilePath: each fullName.
+				rep name: 'Error while parsing file'.
+				rep detections: desc.
+				self reports add: rep.
+				CSCompilationUnitNode new. ]
+	]).
+	
+	^work := work asString.
 ]
 
 { #category : #accessing }
