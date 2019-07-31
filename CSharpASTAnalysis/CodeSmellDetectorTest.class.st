@@ -22,3 +22,11 @@ CodeSmellDetectorTest >> setUp [
 	
 	"poner carpeta CSharpProjectTest en la misma carpeta que la imagen"
 ]
+
+{ #category : #running }
+CodeSmellDetectorTest >> testParseCSharpProject [
+
+	self should: [csharpProjectManager parseCSharpProject: './CSharpProjectTestNoExistente'] raise: Error.
+	
+	self shouldnt: [csharpProjectManager parseCSharpProject: './CSharpProjectTest'] raise: Error.
+]
