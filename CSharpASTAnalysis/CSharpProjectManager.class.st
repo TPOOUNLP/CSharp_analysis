@@ -84,7 +84,8 @@ CSharpProjectManager >> loadParsing: aFilePath [
 CSharpProjectManager >> parseCSharpProject: aProjectFolder [
 	"Parse all the .cs files from a project's folder."
 
-	| work files |
+	| work files failedReports |
+	failedReports := OrderedCollection new.
 	work := aProjectFolder asFileReference.
 	work exists ifFalse: [ self error: 'The specified directory does not exist.' ].
 	files := work allChildrenMatching: '*.cs'.
@@ -99,10 +100,12 @@ CSharpProjectManager >> parseCSharpProject: aProjectFolder [
 				rep csFilePath: each fullName.
 				rep name: 'Error while parsing file'.
 				rep detections: desc.
-				self reports add: rep.
+				failedReports add: rep.
 				CSCompilationUnitNode new. ].
 		ast filename: each fullName.
 	]).
+
+	failedReports isNotEmpty ifTrue: [ self reports add: failedReports ].
 	
 	^work := work asString.
 ]
