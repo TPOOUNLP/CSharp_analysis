@@ -90,7 +90,8 @@ CSharpProjectManager >> parseCSharpProject: aProjectFolder [
 	files := work allChildrenMatching: '*.cs'.
 	files isEmpty ifTrue: [ self error: 'The project directory does not contain valid C# files to parse.' ].
 	self astCollection: (files collect: [ :each |
-		CSharpParser 
+		| ast |
+		ast := CSharpParser 
 			parse: (each contents) 
 			onError: [ :desc :tag | 
 				| rep |
@@ -99,7 +100,8 @@ CSharpProjectManager >> parseCSharpProject: aProjectFolder [
 				rep name: 'Error while parsing file'.
 				rep detections: desc.
 				self reports add: rep.
-				CSCompilationUnitNode new. ]
+				CSCompilationUnitNode new. ].
+		ast filename: each fullName.
 	]).
 	
 	^work := work asString.
