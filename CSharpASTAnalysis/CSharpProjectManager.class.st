@@ -65,6 +65,26 @@ CSharpProjectManager >> detectors: aDetectorsCollection [
 	cSharpAnalyzer detectors: aDetectorsCollection.
 ]
 
+{ #category : #detection }
+CSharpProjectManager >> getReportsAsJson: aJsonFilePath [
+	| json |
+	json := WriteStream on: ''.
+	json
+		nextPutAll: '[';
+		nextPut: Character cr.
+	reports
+		keysAndValuesDo: [ :j :csreports | 
+			csreports
+				keysAndValuesDo: [ :i :report | 
+					report toJSON isEmpty
+						ifFalse: [ json nextPutAll: report toJSON.
+							(i = csreports size and: j + 1 = reports size)
+								ifFalse: [ json nextPutAll: ',' ].
+							json nextPut: Character cr ] ] ].
+	json nextPutAll: ']'.
+	^ json contents.
+]
+
 { #category : #initialization }
 CSharpProjectManager >> initialize [
 	cSharpAnalyzer := CSharpAnalyzer new.
