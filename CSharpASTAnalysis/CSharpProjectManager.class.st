@@ -67,7 +67,8 @@ CSharpProjectManager >> detectors: aDetectorsCollection [
 
 { #category : #detection }
 CSharpProjectManager >> getReportsAsJson: aJsonFilePath [
-	| json |
+	| json writtenReports |
+	writtenReports := 0.
 	json := WriteStream on: ''.
 	json
 		nextPutAll: '[';
@@ -77,12 +78,13 @@ CSharpProjectManager >> getReportsAsJson: aJsonFilePath [
 			csreports
 				keysAndValuesDo: [ :i :report | 
 					report toJSON isEmpty
-						ifFalse: [ json nextPutAll: report toJSON.
-							(i = csreports size and: j + 1 = reports size)
-								ifFalse: [ json nextPutAll: ',' ].
+						ifFalse: [ writtenReports := writtenReports + 1.
+							(writtenReports > 1)
+								ifTrue: [ json nextPutAll: ',' ].
+							json nextPutAll: report toJSON.
 							json nextPut: Character cr ] ] ].
 	json nextPutAll: ']'.
-	^ json contents.
+	^ json contents
 ]
 
 { #category : #initialization }
