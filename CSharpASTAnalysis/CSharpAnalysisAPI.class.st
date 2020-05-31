@@ -5,21 +5,22 @@ Class {
 }
 
 { #category : #'api actions' }
-CSharpAnalysisAPI >> detect: aDirectory filter: aOrderCollection [
+CSharpAnalysisAPI >> detect: aDirectory filter: aConcatenatedDetectorTypesList [
 	"create a CSharpProjectManager and run code smells filters on aDirectory"
 
-	| cs |
+	| cs typesCollection |
 	cs := CSharpProjectManager new.
 	cs parseCSharpProject: aDirectory.
-	cs addDetector: CSDetectorRepeatedMethodBody new.
-	cs addDetector: CSDetectorIdentifierTooLong new.
+	typesCollection := aConcatenatedDetectorTypesList splitOn: ','.
+	typesCollection
+		do:
+			[ :detectorType | cs addDetector: (self makeDetector: detectorType asSymbol) ].
 	cs detectCodeSmells.
 	^ cs getReportsAsJson: aDirectory , '/ReporteCs.json'
 ]
 
 { #category : #accessing }
 CSharpAnalysisAPI >> getDetectors [
-
 	| detectors key1 key2 key3 key4 key5 key6 |
 	detectors := OrderedCollection new.
 	key1 := Dictionary new.
@@ -28,19 +29,30 @@ CSharpAnalysisAPI >> getDetectors [
 	key4 := Dictionary new.
 	key5 := Dictionary new.
 	key6 := Dictionary new.
-	key1 at: 'title' put: 'CSDetectorIdentifierTooLong'.
+	key1 at: 'title' put: 'IdentifierTooLong'.
 	detectors add: key1.
-	key2 at: 'title' put: 'CSDetectorRepeatedMethodBody'.
+	key2 at: 'title' put: 'RepeatedMethodBody'.
 	detectors add: key2.
-	key3 at: 'title' put: 'CSDetectorTooManyLinesInMethod'.
+	key3 at: 'title' put: 'TooManyLinesInMethod'.
 	detectors add: key3.
-	key4 at: 'title' put: 'CSDetectorTooManyMethodParameters'.
+	key4 at: 'title' put: 'TooManyMethodParameters'.
 	detectors add: key4.
-	key5 at: 'title' put: 'CSDetectorTooManyMethods'.
+	key5 at: 'title' put: 'TooManyMethods'.
 	detectors add: key5.
-	key6 at: 'title' put: 'CSDetectorTest'.
+	key6 at: 'title' put: 'Test'.
 	detectors add: key6.
 	^ detectors
+]
+
+{ #category : #factory }
+CSharpAnalysisAPI >> makeDetector: detectorType [
+	"devuelve una instancia del detector indicado"
+
+	| detectorClass |
+	detectorClass := Smalltalk
+		at: (#CSDetector , detectorType) asSymbol
+		ifAbsent: [ ^ nil ].
+	^ detectorClass new
 ]
 
 { #category : #'server handling' }
@@ -55,10 +67,10 @@ CSharpAnalysisAPI >> startServer [
 			'/detect'
 				->
 					[ :req | self detect: (req at: #directory) filter: (req at: #filters) ];
-		output: #json;
 		after:
 			'/*'
 				->
-					[ :req :resp | resp headers at: 'Access-Control-Allow-Origin' put: '*' ];
+					[ :req :resp | resp headers at: 'Access-Control-Allow-Origin' put: '*'.
+					resp headers at: 'Content-Type' put: 'application/json' ];
 		start
 ]
