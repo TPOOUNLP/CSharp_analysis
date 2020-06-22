@@ -30,17 +30,30 @@ CSharpAnalysisAPI >> getDetectors [
 	key5 := Dictionary new.
 	key6 := Dictionary new.
 	key1 at: 'title' put: 'IdentifierTooLong'.
+	key1 at: 'name' put: 'Identifier Too Long'.
+	key1 at: 'referenceType' put: 'identifier'.
+	key1 at: 'referenceIndex' put: 2.
 	detectors add: key1.
 	key2 at: 'title' put: 'RepeatedMethodBody'.
+	key2 at: 'name' put: 'Repeated Method Body'.
+	key2 at: 'referenceType' put: 'method'.
+	key2 at: 'referenceIndex' put: 0.
 	detectors add: key2.
 	key3 at: 'title' put: 'TooManyLinesInMethod'.
+	key3 at: 'name' put: 'Too Many Lines In Method'.
+	key3 at: 'referenceType' put: 'method'.
+	key3 at: 'referenceIndex' put: 0.
 	detectors add: key3.
 	key4 at: 'title' put: 'TooManyMethodParameters'.
+	key4 at: 'name' put: 'Too Many Method Parameters'.
+	key4 at: 'referenceType' put: 'method'.
+	key4 at: 'referenceIndex' put: 1.
 	detectors add: key4.
 	key5 at: 'title' put: 'TooManyMethods'.
+	key5 at: 'name' put: 'Too Many Methods'.
+	key5 at: 'referenceType' put: 'method'.
+	key5 at: 'referenceIndex' put: 0.
 	detectors add: key5.
-	key6 at: 'title' put: 'Test'.
-	detectors add: key6.
 	^ detectors
 ]
 
