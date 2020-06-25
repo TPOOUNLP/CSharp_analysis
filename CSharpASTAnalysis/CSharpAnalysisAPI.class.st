@@ -35,7 +35,7 @@ CSharpAnalysisAPI >> getDetectors [
 	key1 at: 'referenceIndex' put: 2.
 	detectors add: key1.
 	key2 at: 'title' put: 'RepeatedMethodBody'.
-	key2 at: 'name' put: 'Repeated Method Body'.
+	key2 at: 'name' put: 'Repeated Methods'.
 	key2 at: 'referenceType' put: 'method'.
 	key2 at: 'referenceIndex' put: 0.
 	detectors add: key2.
