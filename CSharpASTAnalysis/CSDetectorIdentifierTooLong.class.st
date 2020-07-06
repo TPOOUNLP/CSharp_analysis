@@ -36,6 +36,13 @@ CSDetectorIdentifierTooLong >> initializeCollections [
 	ids := OrderedCollection new.
 ]
 
+{ #category : #initialization }
+CSDetectorIdentifierTooLong >> label [
+	"return detector label"
+
+	^ 'Identifier Too Long'
+]
+
 { #category : #private }
 CSDetectorIdentifierTooLong >> printResult [
 	| text report |
@@ -49,6 +56,27 @@ CSDetectorIdentifierTooLong >> printResult [
 			report csClassName: currentClass.
 			report addDetection: text contents ].
 	^ report
+]
+
+{ #category : #initialization }
+CSDetectorIdentifierTooLong >> referenceIndex [
+	"return detector reference index"
+
+	^ 2
+]
+
+{ #category : #initialization }
+CSDetectorIdentifierTooLong >> referenceType [
+	"return detector reference type"
+
+	^ 'identifier'
+]
+
+{ #category : #initialization }
+CSDetectorIdentifierTooLong >> title [
+	"return detector title"
+
+	^ 'IdentifierTooLong'
 ]
 
 { #category : #generated }

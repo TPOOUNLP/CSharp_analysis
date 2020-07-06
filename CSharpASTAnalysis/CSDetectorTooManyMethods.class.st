@@ -22,6 +22,13 @@ CSDetectorTooManyMethods >> initializeCollections [
 	methods := Bag new.
 ]
 
+{ #category : #initialization }
+CSDetectorTooManyMethods >> label [
+	"return detector label"
+
+	^ 'Too Many Methods'
+]
+
 { #category : #accessing }
 CSDetectorTooManyMethods >> length [
 	^ length
@@ -56,6 +63,27 @@ CSDetectorTooManyMethods >> printResult [
 { #category : #printing }
 CSDetectorTooManyMethods >> printString [
 	^ 'Too Many Methods'
+]
+
+{ #category : #initialization }
+CSDetectorTooManyMethods >> referenceIndex [
+	"return detector reference index"
+
+	^ 0
+]
+
+{ #category : #initialization }
+CSDetectorTooManyMethods >> referenceType [
+	"return detector reference type"
+
+	^ 'method'
+]
+
+{ #category : #accessing }
+CSDetectorTooManyMethods >> title [
+	"return detector title"
+
+	^ 'TooManyMethods'
 ]
 
 { #category : #visitor }

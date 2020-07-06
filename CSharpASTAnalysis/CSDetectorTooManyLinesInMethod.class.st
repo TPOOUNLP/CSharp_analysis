@@ -22,6 +22,13 @@ CSDetectorTooManyLinesInMethod >> initializeCollections [
 	tooManyLinesMethods := Dictionary new.
 ]
 
+{ #category : #initialization }
+CSDetectorTooManyLinesInMethod >> label [
+	"return detector label"
+
+	^ 'Too Many Lines In Method'
+]
+
 { #category : #accessing }
 CSDetectorTooManyLinesInMethod >> methodBodyMaxlength [
 	^ methodBodyMaxlength
@@ -53,6 +60,27 @@ CSDetectorTooManyLinesInMethod >> printResult [
 { #category : #printing }
 CSDetectorTooManyLinesInMethod >> printString [
 	^ 'Too Many Lines in Method'
+]
+
+{ #category : #initialization }
+CSDetectorTooManyLinesInMethod >> referenceIndex [
+	"return detector reference index"
+
+	^ 0
+]
+
+{ #category : #initialization }
+CSDetectorTooManyLinesInMethod >> referenceType [
+	"return detector reference type"
+
+	^ 'method'
+]
+
+{ #category : #accessing }
+CSDetectorTooManyLinesInMethod >> title [
+	"return detector title"
+
+	^ 'TooManyLinesInMethod'
 ]
 
 { #category : #visitor }
