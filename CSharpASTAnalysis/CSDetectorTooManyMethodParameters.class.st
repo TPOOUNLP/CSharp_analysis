@@ -27,7 +27,7 @@ CSDetectorTooManyMethodParameters >> initializeCollections [
 CSDetectorTooManyMethodParameters >> label [
 	"return detector label"
 
-	^ 'Too Many Method Parameters'
+	^ 'Too Many Parameters in Method'
 ]
 
 { #category : #accessing }

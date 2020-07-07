@@ -26,7 +26,7 @@ CSDetectorTooManyLinesInMethod >> initializeCollections [
 CSDetectorTooManyLinesInMethod >> label [
 	"return detector label"
 
-	^ 'Too Many Lines In Method'
+	^ 'Too Many Lines in Method'
 ]
 
 { #category : #accessing }
