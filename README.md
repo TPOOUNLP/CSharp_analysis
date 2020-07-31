@@ -9,6 +9,9 @@ https://github.com/svenvc/ston
 #### SmaCC
 https://github.com/j-brant/SmaCC
 
+#### Teapot
+https://github.com/zeroflag/Teapot
+
 ---
 
 
@@ -49,3 +52,12 @@ To analyze and detect the code smell in your project simply call this:
 pm detectCodeSmells.
 ```
 This will give you a text report of what code smells the detector/s found in your project.
+
+## Start server API services for Electron
+To start the server run:
+```smalltalk
+|csaAPI|
+
+csaAPI := CSharpAnalysisAPI new.
+csaAPI startServer.
+```
