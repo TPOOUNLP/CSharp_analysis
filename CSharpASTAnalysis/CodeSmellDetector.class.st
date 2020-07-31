@@ -59,9 +59,38 @@ CodeSmellDetector >> initializeCollections [
 	^ self subclassResponsibility.
 ]
 
+{ #category : #initialization }
+CodeSmellDetector >> label [
+	"return detector label"
+
+	^ self subclassResponsibility
+]
+
 { #category : #private }
 CodeSmellDetector >> printResult [
 	"Base method to detect code smells from a SmaCC node"
 
 	^ self subclassResponsibility.
+]
+
+{ #category : #initialization }
+CodeSmellDetector >> referenceIndex [
+	"return detector reference index"
+
+	^ self subclassResponsibility
+]
+
+{ #category : #initialization }
+CodeSmellDetector >> referenceType [
+	"return detector reference type"
+
+	^ self subclassResponsibility
+]
+
+{ #category : #initialization }
+CodeSmellDetector >> title [
+	"return detector title"
+
+  ^ self subclassResponsibility
+
 ]

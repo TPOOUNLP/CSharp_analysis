@@ -32,6 +32,13 @@ CSDetectorRepeatedMethodBody >> initializeCollections [
 	duplicatedMethods := Bag new.
 ]
 
+{ #category : #initialization }
+CSDetectorRepeatedMethodBody >> label [
+	"return detector label"
+
+	^ 'Repeated Methods'
+]
+
 { #category : #private }
 CSDetectorRepeatedMethodBody >> printResult [
 	| text report |
@@ -52,6 +59,27 @@ CSDetectorRepeatedMethodBody >> printResult [
 { #category : #printing }
 CSDetectorRepeatedMethodBody >> printString [
 	^ 'Repeated Methods'
+]
+
+{ #category : #initialization }
+CSDetectorRepeatedMethodBody >> referenceIndex [
+	"return detector reference index"
+
+	^ 0
+]
+
+{ #category : #initialization }
+CSDetectorRepeatedMethodBody >> referenceType [
+	"return detector reference type"
+
+	^ 'method'
+]
+
+{ #category : #accessing }
+CSDetectorRepeatedMethodBody >> title [
+	"return detector title"
+
+	^ 'RepeatedMethodBody'
 ]
 
 { #category : #visitor }

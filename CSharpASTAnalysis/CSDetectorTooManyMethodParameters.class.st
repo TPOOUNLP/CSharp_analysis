@@ -23,6 +23,13 @@ CSDetectorTooManyMethodParameters >> initializeCollections [
 	methods := Dictionary new.
 ]
 
+{ #category : #initialization }
+CSDetectorTooManyMethodParameters >> label [
+	"return detector label"
+
+	^ 'Too Many Parameters in Method'
+]
+
 { #category : #accessing }
 CSDetectorTooManyMethodParameters >> length [
 	^ length
@@ -59,6 +66,27 @@ CSDetectorTooManyMethodParameters >> printResult [
 	^ report.
 	
 
+]
+
+{ #category : #initialization }
+CSDetectorTooManyMethodParameters >> referenceIndex [
+	"return detector reference index"
+
+	^ 1
+]
+
+{ #category : #initialization }
+CSDetectorTooManyMethodParameters >> referenceType [
+	"return detector reference type"
+
+	^ 'method'
+]
+
+{ #category : #accessing }
+CSDetectorTooManyMethodParameters >> title [
+	"return detector title"
+
+	^ 'TooManyMethodParameters'
 ]
 
 { #category : #generated }
